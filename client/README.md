@@ -1,1 +1,1 @@
-Here is a weight tracker
+Here is the React part of the project.
