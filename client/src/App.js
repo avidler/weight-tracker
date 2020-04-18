@@ -12,12 +12,16 @@ function App() {
 
   useEffect(() => {
     usernamebox.current.focus();
+    console.log("username: ", username)
+    console.log("isLoggedIn: ", isLoggedIn)
   }, []);
 
   function handleChange(e) {
     const {value} = e.target
     setUsername(value)
   }
+
+  
   
   function submitName(e) {
     e.preventDefault();
@@ -53,9 +57,7 @@ function App() {
             </label>
             <input type="submit" value="Submit" />
         </form>
-  
-   
-</div>
+      </div>
 
         }
     </div>
