@@ -6,7 +6,7 @@ function AddNewUser(props) {
     
     axios.post('/users/add', {username:username})
     .then(res => console.log(res.data))
-
+}
 
     return(
         <div>
@@ -15,6 +15,6 @@ function AddNewUser(props) {
 
 
     )
-}
+
 
 export default AddNewUser

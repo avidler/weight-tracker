@@ -1,8 +1,8 @@
 import React from 'react'
 
-function WeightsTable(props) {
-    const userWeights = props.userWeights
-
+function WeightsTable({userWeights}) {
+    //const userWeights = props.userWeights
+    console.log("userWeights: ",userWeights)
     return(
         <table className="weights">
         <thead><tr><th>Date</th><th>Weight</th></tr></thead>

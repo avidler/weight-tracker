@@ -3,8 +3,8 @@ const express = require('express')
 const cors = require('cors')
 const mongoose = require('mongoose')
 const path = require('path')
-const addUserRouter = require("./routes/add-user")
-const seeAllUsersRouter = require("./routes/users")
+const usersRouter = require('./routes/users')
+const weightsRouter = require('./routes/weights')
 
 require('dotenv').config()
 
@@ -13,6 +13,9 @@ const port = process.env.PORT || 5000
 
 app.use(cors())
 app.use(express.json())
+
+app.use('/users', usersRouter)
+app.use('/weights', weightsRouter)
 
 const uri = process.env.ATLAS_URI
 //console.log("uri: ",uri)
@@ -26,11 +29,6 @@ connection.once('open', (t) => {
 
 
 })
-
-
-app.use('/add-user', addUserRouter)
-app.use('/users', seeAllUsersRouter)
-
 
 
 // Serve static assets if in production

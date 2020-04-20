@@ -16,7 +16,51 @@ function App() {
     console.log("isLoggedIn: ", isLoggedIn)
   }, []);
 
-  function handleChange(e) {
+  async function getUsers () {
+    await axios.get('/users')
+    .then((response) => {
+        let data = response.data.filter((res, i) => (res.username===username));
+        setUserWeights(data.length > 0 ? data[0].weights : []) 
+        setStatus("")
+    })
+
+    .then(() => {
+        setDataLoaded(true)
+    })
+}
+
+function addNewUser() {
+        
+        
+  axios.post('/users/add', {username:username})
+  .then(res => console.log(res.data))
+}  
+
+    function submitWeight(e){
+      e.preventDefault();
+      console.log("new date: ", newDate)
+      console.log("new weight: ", newWeight)
+      setUserWeights(...userWeights,{newDate, newWeight})
+      console.log("new userWeights: ", userWeights)
+      setNewDate(newDate)
+      setNewWeight(newWeight)
+      console.log("isLoggedIn just before weight add: ", isLoggedIn)
+      axios.post('/weights/add', {username:username, date:newDate, weight:newWeight})
+      .then(res => {console.log(res.data)})
+      }
+
+
+    function handleDateChange(e) {
+      const {value} = e.target
+      setNewDate(value)
+    }
+
+    function handleWeightChange(e) {
+      const {value} = e.target
+      setNewWeight(value)
+    }
+
+  function handleUsernameChange(e) {
     const {value} = e.target
     setUsername(value)
   }
@@ -40,26 +84,84 @@ function App() {
     <div className="App">
       <h1>App Title</h1>
       <h3>{isLoggedIn}</h3>
-        {isLoggedIn ? 
+      {isLoggedIn ? 
         <div>
-        <User username={username} isLoggedIn={isLoggedIn}/> 
-        <button onClick={logout}>Click to logout</button>
+          {dataLoaded ?
+            <div>
+              <h2>User Data for {username}</h2>
+              <div>
+              <span className="input-group-btn"></span>
+              <div>{status}</div>
+              <div>
+                <h2>Add New Weight</h2>
+                <form onSubmit={submitWeight}>
+                  <label htmlFor="date">
+                  Date
+                  <input 
+                    type="date" 
+                    id="date" 
+                    value={newDate} 
+                    onChange = {handleDateChange} 
+                  />
+                  </label>
+                  <label htmlFor="weight">
+                  Weight
+                  <input 
+                    type="number" 
+                    id="weight" 
+                    value={newWeight}  
+                    onChange = {handleWeightChange} 
+                  />
+                  </label>
+                  <input type="submit" value="Submit" />
+                </form>
+              </div>
+              <div className="weightboard">
+              <h2>Weight History</h2>
+              {console.log("userWeights.length: ", userWeights.length)}
+              {userWeights.length > 0 ? 
+                <table className="weights">
+                  <thead><tr><th>Date</th><th>Weight</th></tr></thead>
+                  <tbody>
+                  {userWeights.map((user) => 
+                    <tr key={user.date}>
+                    <td id="post-date">{new Date(user.date).toDateString()} </td>
+                    <td id="post-weight"> {user.weight}</td>
+                    </tr>
+                  )}
+                  </tbody>
+                </table>
+              :
+                <div>{addNewUser}/> 
+                  <div>New User Created</div>
+                  No data for this user yet...
+                </div>
+              }
+            </div>
+            </div>
+            </div>
+          :
+            <div>Data loading...</div>
+          }
+          <button onClick={logout}>Click to logout</button>
         </div>
-        : 
-
-      <div>
-        <h2>
-        Login or signup</h2>
-        <form onSubmit={submitName}>
+      :
+        <div>
+          <h2>Login or signup</h2>
+          <form onSubmit={submitName}>
             <label>
-                <input type="text" id="usernamebox" ref={usernamebox} value={username} onChange = {handleChange} />
-               
+            <input 
+              type="text" 
+              id="usernamebox" 
+              ref={usernamebox} 
+              value={username} 
+              onChange = {handleUsernameChange} 
+            />
             </label>
             <input type="submit" value="Submit" />
-        </form>
-      </div>
-
-        }
+          </form>
+        </div>
+      }
     </div>
   );
 }

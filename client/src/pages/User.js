@@ -1,9 +1,5 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import axios from 'axios'
-
-import WeightsTable from './components/WeightsTable'
-//import AddNewWeight from './components/AddNewWeight'
-import AddNewUser from './components/AddNewUser'
 
 function User(props) {
     const username = props.username
@@ -14,28 +10,42 @@ function User(props) {
     const [newDate, setNewDate] = useState("")
     const [newWeight, setNewWeight] = useState(0)
     
- 
+    const didMountRef = useRef(false)
     useEffect(() => {
-        async function getUsers () {
-            await axios.get('/users')
-            .then((response) => {
-                let data = response.data.filter((res, i) => (res.username===username));
-                setUserWeights(data.length > 0 ? data[0].weights : []) 
-                setStatus("")
-            })
+        if (didMountRef.current){
+            console.log(didMountRef)
+        }
+        else{
+            didMountRef.current = true
+            async function getUsers () {
+                await axios.get('/users')
+                .then((response) => {
+                    let data = response.data.filter((res, i) => (res.username===username));
+                    setUserWeights(data.length > 0 ? data[0].weights : []) 
+                    setStatus("")
+                })
             
-            .then(() => {
-                setDataLoaded(true)
-            })
+                .then(() => {
+                    setDataLoaded(true)
+                })
             }
+            getUsers()
+        }
+    })
       
-        getUsers()
-    },[username])
+    function addNewUser() {
+        
+        
+        axios.post('/users/add', {username:username})
+        .then(res => console.log(res.data))
+    }  
 
-    const submitWeight = (e) => {
+    function submitWeight(e){
         e.preventDefault();
         console.log("new date: ", newDate)
         console.log("new weight: ", newWeight)
+        setUserWeights(...userWeights,{newDate, newWeight})
+        console.log("new userWeights: ", userWeights)
         setNewDate(newDate)
         setNewWeight(newWeight)
         console.log("isLoggedIn just before weight add: ", isLoggedIn)
@@ -82,10 +92,24 @@ function User(props) {
                 <div className="weightboard">
                     <h2>Weight History</h2>
 
+                    {console.log("userWeights.length: ", userWeights.length)}
                     {
                     userWeights.length > 0 ? 
-                    <WeightsTable userWeights={userWeights} />:
-                    <div><AddNewUser username={username}/>No data for this user yet...</div>
+                    <table className="weights">
+                    <thead><tr><th>Date</th><th>Weight</th></tr></thead>
+                    <tbody>
+                    {userWeights.map((user) => 
+                        <tr key={user.date}>
+                        <td id="post-date">{new Date(user.date).toDateString()} </td>
+                        <td id="post-weight"> {user.weight}</td>
+                        </tr>
+                    )}
+                    </tbody>
+                    </table>
+:
+                    <div>{addNewUser}/> <div>
+                    New User Created
+                    </div>No data for this user yet...</div>
                     }
            
                 </div>

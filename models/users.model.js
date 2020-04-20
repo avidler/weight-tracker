@@ -6,12 +6,12 @@ const userSchema = new Schema({
     weightPref: { type: String },
     weights: [{
         weight: {type: Number},
-        date: {type: Date}
+        date: {type: String}
     }]
 },
 { timestamps: false },
 { versionKey: false },
-{ collection: 'Users'}
+{ collection: 'users'}
 )
 
 const User = mongoose.model('User', userSchema)
