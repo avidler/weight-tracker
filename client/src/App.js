@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import axios from 'axios'
 import './App.css';
 
 //import Login from './pages/Login'
@@ -7,14 +8,15 @@ import User from './pages/User'
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [username, setUsername] = useState("") 
+  const [userWeights, setUserWeights] = useState([])
+  const [status, setStatus] = useState("Loading...")
+  const [dataLoaded, setDataLoaded] = useState(false)
+  const [newDate, setNewDate] = useState("")
+  const [newWeight, setNewWeight] = useState(0)
 
   const usernamebox = useRef(null);
 
-  useEffect(() => {
-    usernamebox.current.focus();
-    console.log("username: ", username)
-    console.log("isLoggedIn: ", isLoggedIn)
-  }, []);
+  
 
   async function getUsers () {
     await axios.get('/users')
@@ -40,15 +42,23 @@ function addNewUser() {
       e.preventDefault();
       console.log("new date: ", newDate)
       console.log("new weight: ", newWeight)
-      setUserWeights(...userWeights,{newDate, newWeight})
+      console.log("userweights before concat: ", userWeights)
+      setUserWeights(prevWeights => (
+               [...prevWeights,({date:newDate, weight:newWeight})]
+            ))
       console.log("new userWeights: ", userWeights)
-      setNewDate(newDate)
-      setNewWeight(newWeight)
-      console.log("isLoggedIn just before weight add: ", isLoggedIn)
-      axios.post('/weights/add', {username:username, date:newDate, weight:newWeight})
-      .then(res => {console.log(res.data)})
+      setNewDate("")
+      setNewWeight(0)
+     
+
       }
 
+      function removeWeight(oldDate){
+        console.log("oldDate: ",oldDate)
+        
+        setUserWeights(userWeights.filter(q => new Date(q.date).toDateString() !== new Date(oldDate).toDateString()));
+      }
+     
 
     function handleDateChange(e) {
       const {value} = e.target
@@ -70,11 +80,13 @@ function addNewUser() {
   function submitName(e) {
     e.preventDefault();
     setIsLoggedIn(true)
-    
+    getUsers()
   }
 
   function logout(e) {
     e.preventDefault();
+    axios.post('/weights/add', {username:username, newWeights:userWeights})
+    .then(res => {console.log(res.data)})
     setUsername("")
     setIsLoggedIn(false)
    
@@ -85,6 +97,7 @@ function addNewUser() {
       <h1>App Title</h1>
       <h3>{isLoggedIn}</h3>
       {isLoggedIn ? 
+        
         <div>
           {dataLoaded ?
             <div>
@@ -94,12 +107,13 @@ function addNewUser() {
               <div>{status}</div>
               <div>
                 <h2>Add New Weight</h2>
+                
                 <form onSubmit={submitWeight}>
                   <label htmlFor="date">
                   Date
                   <input 
                     type="date" 
-                    id="date" 
+                    id="dateTextBox" 
                     value={newDate} 
                     onChange = {handleDateChange} 
                   />
@@ -108,7 +122,7 @@ function addNewUser() {
                   Weight
                   <input 
                     type="number" 
-                    id="weight" 
+                    id="weightTextBox" 
                     value={newWeight}  
                     onChange = {handleWeightChange} 
                   />
@@ -121,18 +135,20 @@ function addNewUser() {
               {console.log("userWeights.length: ", userWeights.length)}
               {userWeights.length > 0 ? 
                 <table className="weights">
-                  <thead><tr><th>Date</th><th>Weight</th></tr></thead>
+                  <thead><tr><th>Date</th><th>Weight</th><th></th></tr></thead>
                   <tbody>
+                  {console.log("user before map: ", userWeights)}
                   {userWeights.map((user) => 
                     <tr key={user.date}>
                     <td id="post-date">{new Date(user.date).toDateString()} </td>
                     <td id="post-weight"> {user.weight}</td>
+                    <td><button onClick={() => {removeWeight(user.date)}}>X</button></td>
                     </tr>
                   )}
                   </tbody>
                 </table>
               :
-                <div>{addNewUser}/> 
+                <div>{addNewUser()} 
                   <div>New User Created</div>
                   No data for this user yet...
                 </div>
