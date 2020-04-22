@@ -42,7 +42,7 @@ function User(props) {
 
     function submitWeight(e){
         e.preventDefault();
-        document.getElementById('weight').value = 0;
+        
         console.log("new date: ", newDate)
         console.log("new weight: ", newWeight)
         setUserWeights(...userWeights,{newDate, newWeight})

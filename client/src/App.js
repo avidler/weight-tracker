@@ -26,9 +26,15 @@ function App() {
         setStatus("")
     })
 
+
     .then(() => {
         setDataLoaded(true)
     })
+}
+
+function sortWeights() {
+    setUserWeights(userWeights.sort((a,b) => new Date(b.date).toDateString() !== new Date(a.date).toDateString()));
+      
 }
 
 function addNewUser() {
@@ -45,11 +51,11 @@ function addNewUser() {
       console.log("userweights before concat: ", userWeights)
       setUserWeights(prevWeights => (
                [...prevWeights,({date:newDate, weight:newWeight})]
-            ))
+            ).sort((a,b) => Date.parse(new Date(a.date)) - Date.parse(new Date(b.date))))
       console.log("new userWeights: ", userWeights)
       setNewDate("")
       setNewWeight(0)
-     
+      
 
       }
 
