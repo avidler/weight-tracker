@@ -1,3 +1,24 @@
+@import url('https://fonts.googleapis.com/css2?family=Dosis&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lato&display=swap');
+
+* {box-sizing: border-box;}
+
+
+body {
+  margin: 0; /* ALWAYS START WITH THIS TOO */
+  font-family: 'Lato', sans-serif;
+  font-size: 1rem; /* default size of 16px */
+  color: #404040;
+  line-height: 1.6; /* will ususally need to play about with this */
+
+}
+
+img {
+  max-width: 100%; /* Always do this to prevent overflow on small screens */
+}
+
+
+
 .App {
   text-align: center;
 }
