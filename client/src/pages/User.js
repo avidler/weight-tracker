@@ -85,7 +85,7 @@ function User(props) {
                         </label>
                         <label htmlFor="weight">
                             Weight
-                            <input type="number" id="weight" value={newWeight}  onChange = {handleWeightChange} />
+                            <input type="number" id="weight" class="form-control input-text" value={newWeight}  onChange = {handleWeightChange} />
                         </label>
                         <input type="submit" value="Submit" />
                     </form>

@@ -168,13 +168,14 @@ function addNewUser() {
           <button onClick={logout}>Click to logout</button>
         </div>
       :
-        <div>
+        <div class="form">
           <h2>Login or signup</h2>
           <form onSubmit={submitName}>
             <label>
             <input 
               type="text" 
               id="usernamebox" 
+              class="form-control input-text"
               ref={usernamebox} 
               value={username} 
               onChange = {handleUsernameChange} 
