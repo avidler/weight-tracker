@@ -100,91 +100,99 @@ function addNewUser() {
 
   return (
     <div className="App">
-      <h1>App Title</h1>
-      <h3>{isLoggedIn}</h3>
-      {isLoggedIn ? 
-        
-        <div>
-          {dataLoaded ?
-            <div>
-              <h2>User Data for {username}</h2>
-              <div>
-              <span className="input-group-btn"></span>
-              <div>{status}</div>
-              <div>
-                <h2>Add New Weight</h2>
-                
-                <form onSubmit={submitWeight}>
-                  <label htmlFor="date">
-                  Date
-                  <input 
-                    type="date" 
-                    id="dateTextBox" 
-                    value={newDate} 
-                    onChange = {handleDateChange} 
-                  />
-                  </label>
-                  <label htmlFor="weight">
-                  Weight
-                  <input 
-                    type="number" 
-                    id="weightTextBox" 
-                    value={newWeight}  
-                    onChange = {handleWeightChange} 
-                  />
-                  </label>
-                  <input type="submit" value="Submit" />
-                </form>
-              </div>
-              <div className="weightboard">
-              <h2>Weight History</h2>
-              {console.log("userWeights.length: ", userWeights.length)}
-              {userWeights.length > 0 ? 
-                <table className="weights">
-                  <thead><tr><th>Date</th><th>Weight</th><th></th></tr></thead>
-                  <tbody>
-                  {console.log("user before map: ", userWeights)}
-                  {userWeights.map((user) => 
-                    <tr key={user.date}>
-                    <td id="post-date">{new Date(user.date).toDateString()} </td>
-                    <td id="post-weight"> {user.weight}</td>
-                    <td><button onClick={() => {removeWeight(user.date)}}>X</button></td>
-                    </tr>
-                  )}
-                  </tbody>
-                </table>
-              :
-                <div>{addNewUser()} 
-                  <div>New User Created</div>
-                  No data for this user yet...
+      <header class="header header-home main-grid">
+        <div class="header-content">
+          <h1>Weight Tracker</h1>
+
+        </div>
+      </header>
+
+      <main> 
+        <section class="info main-grid"> 
+          {isLoggedIn ? 
+            <div class="col">
+              {dataLoaded ?
+                <div class="col">
+                  <h2>User Data for {username}</h2>
+                  <div>
+                  <span className="input-group-btn"></span>
+                  <div>{status}</div>
+                  <div>
+                    <h3>Add New Weight</h3>
+                    
+                    <form onSubmit={submitWeight}>
+                      <label htmlFor="date">
+                      Date
+                      <input 
+                        type="date" 
+                        id="dateTextBox" 
+                        value={newDate} 
+                        onChange = {handleDateChange} 
+                      />
+                      </label>
+                      <label htmlFor="weight">
+                      Weight
+                      <input 
+                        type="number" 
+                        id="weightTextBox" 
+                        value={newWeight}  
+                        onChange = {handleWeightChange} 
+                      />
+                      </label>
+                      <input id="submit-button" type="submit" value="Submit"  />
+                    </form>
+                  </div>
+                  <div className="weightboard">
+                  <h3>Weight History</h3>
+                  {console.log("userWeights.length: ", userWeights.length)}
+                  {userWeights.length > 0 ? 
+                    <table className="weights">
+                      <thead><tr><th>Date</th><th>Weight</th><th></th></tr></thead>
+                      <tbody>
+                      {console.log("user before map: ", userWeights)}
+                      {userWeights.map((user) => 
+                        <tr key={user.date}>
+                        <td id="post-date">{new Date(user.date).toDateString()} </td>
+                        <td id="post-weight"> {user.weight}</td>
+                        <td><button onClick={() => {removeWeight(user.date)}}>X</button></td>
+                        </tr>
+                      )}
+                      </tbody>
+                    </table>
+                  :
+                    <div>{addNewUser()} 
+                      <div>New User Created</div>
+                      No data for this user yet...
+                    </div>
+                  }
                 </div>
+                </div>
+                </div>
+              :
+                <div>Data loading...</div>
               }
-            </div>
-            </div>
+              <button onClick={logout}>Click to logout</button>
             </div>
           :
-            <div>Data loading...</div>
+            <div class="form col">
+              <h2>Login or signup</h2>
+              <form onSubmit={submitName}>
+                <label>
+                <input 
+                  type="text" 
+                  id="usernamebox" 
+                  class="form-control input-text"
+                  ref={usernamebox} 
+                  value={username} 
+                  onChange = {handleUsernameChange} 
+                />
+                </label>
+                <input className="submit-button" type="submit" value="Submit"  />
+              </form>
+            </div>
           }
-          <button onClick={logout}>Click to logout</button>
-        </div>
-      :
-        <div class="form">
-          <h2>Login or signup</h2>
-          <form onSubmit={submitName}>
-            <label>
-            <input 
-              type="text" 
-              id="usernamebox" 
-              class="form-control input-text"
-              ref={usernamebox} 
-              value={username} 
-              onChange = {handleUsernameChange} 
-            />
-            </label>
-            <input type="submit" value="Submit" />
-          </form>
-        </div>
-      }
+        </section>
+      </main>
     </div>
   );
 }
