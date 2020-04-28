@@ -3,6 +3,7 @@
 
 * {box-sizing: border-box;}
 
+html { margin-left: calc(100vw - 100%); } /* Prevents scrollbar from moving layout */
 
 body {
   margin: 0; /* ALWAYS START WITH THIS TOO */
@@ -37,7 +38,12 @@ img {
 }
 
 h1 {
-  margin: 0.5em;
+  margin-top: 0.5em;
+  margin-bottom: 0;
+}
+
+h2 {
+  margin-top: 0;
 }
 
 .info {

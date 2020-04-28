@@ -23,6 +23,7 @@ function App() {
     .then((response) => {
         let data = response.data.filter((res, i) => (res.username===username));
         setUserWeights(data.length > 0 ? data[0].weights : []) 
+       
         setStatus("")
     })
 
@@ -33,8 +34,9 @@ function App() {
 }
 
 function sortWeights() {
-    setUserWeights(userWeights.sort((a,b) => new Date(b.date).toDateString() !== new Date(a.date).toDateString()));
-      
+  setUserWeights(prevWeights => (
+    [...prevWeights,({date:newDate, weight:newWeight})]
+ ).sort((a,b) => Date.parse(new Date(b.date)) - Date.parse(new Date(a.date)))) 
 }
 
 function addNewUser() {
@@ -51,8 +53,8 @@ function addNewUser() {
       console.log("userweights before concat: ", userWeights)
       setUserWeights(prevWeights => (
                [...prevWeights,({date:newDate, weight:newWeight})]
-            ).sort((a,b) => Date.parse(new Date(a.date)) - Date.parse(new Date(b.date))))
-      console.log("new userWeights: ", userWeights)
+            ).sort((a,b) => Date.parse(new Date(b.date)) - Date.parse(new Date(a.date))))
+ 
       setNewDate("")
       setNewWeight(0)
       
@@ -139,8 +141,10 @@ function addNewUser() {
                         onChange = {handleWeightChange} 
                       />
                       </label>
-                      <input id="submit-button" type="submit" value="Submit"  />
+                      <input class="submit-button" type="submit" value="Submit"  />
+                     
                     </form>
+                     <button onClick={logout} className="submit-button">Save and logout</button>
                   </div>
                   <div className="weightboard">
                   <h3>Weight History</h3>
@@ -149,7 +153,6 @@ function addNewUser() {
                     <table className="weights">
                       <thead><tr><th>Date</th><th>Weight</th><th></th></tr></thead>
                       <tbody>
-                      {console.log("user before map: ", userWeights)}
                       {userWeights.map((user) => 
                         <tr key={user.date}>
                         <td id="post-date">{new Date(user.date).toDateString()} </td>
@@ -171,7 +174,7 @@ function addNewUser() {
               :
                 <div>Data loading...</div>
               }
-              <button onClick={logout}>Click to logout</button>
+              
             </div>
           :
             <div class="form col">
