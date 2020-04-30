@@ -79,13 +79,25 @@ function User(props) {
                 <div>
                     <h2>Add New Weight</h2>
                     <form onSubmit={submitWeight}>
-                        <label htmlFor="date">
+                        <label htmlFor="date" className="date-label" for="date">
                             Date
-                            <input type="date" id="date" value={newDate} onChange = {handleDateChange} />
+                            <input 
+                                type="date" 
+                                id="date" 
+                                className="date-input" 
+                                value="30/04/2020"
+                                onChange = {handleDateChange} />
                         </label>
-                        <label htmlFor="weight">
+                        <label htmlFor="weight" className="weight-label" for="weight">
                             Weight
-                            <input type="number" id="weight" class="form-control input-text" value={newWeight}  onChange = {handleWeightChange} />
+                            <input 
+                                type="number" 
+                                id="weight" 
+                                class="form-control input-text weight-input" 
+                                onFocus = {() => this.inputField.value = ""} 
+                                value={newWeight}  
+                                onChange = {handleWeightChange} 
+                            />
                         </label>
                         <input type="submit" value="Submit" />
                     </form>

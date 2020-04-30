@@ -11,10 +11,12 @@ function App() {
   const [userWeights, setUserWeights] = useState([])
   const [status, setStatus] = useState("Loading...")
   const [dataLoaded, setDataLoaded] = useState(false)
-  const [newDate, setNewDate] = useState("")
-  const [newWeight, setNewWeight] = useState(0)
+  const [newDate, setNewDate] = useState(new Date().toISOString().substr(0, 10))
+  const [newWeight, setNewWeight] = useState(null)
 
   const usernamebox = useRef(null);
+
+  let today = new Date().toISOString().substr(0, 10);
 
   
 
@@ -99,22 +101,25 @@ function addNewUser() {
     setIsLoggedIn(false)
    
   }
+  
+
 
   return (
+ 
     <div className="App">
-      <header class="header header-home main-grid">
-        <div class="header-content">
+      <header className="header header-home main-grid">
+        <div className="header-content">
           <h1>Weight Tracker</h1>
 
         </div>
       </header>
 
       <main> 
-        <section class="info main-grid"> 
+        <section className="info main-grid"> 
           {isLoggedIn ? 
-            <div class="col">
+            <div className="col">
               {dataLoaded ?
-                <div class="col">
+                <div className="col">
                   <h2>User Data for {username}</h2>
                   <div>
                   <span className="input-group-btn"></span>
@@ -128,7 +133,7 @@ function addNewUser() {
                       <input 
                         type="date" 
                         id="dateTextBox" 
-                        value={newDate} 
+                        value={newDate}
                         onChange = {handleDateChange} 
                       />
                       </label>
@@ -137,11 +142,12 @@ function addNewUser() {
                       <input 
                         type="number" 
                         id="weightTextBox" 
+                        
                         value={newWeight}  
                         onChange = {handleWeightChange} 
                       />
                       </label>
-                      <input class="submit-button" type="submit" value="Submit"  />
+                      <input className="submit-button" type="submit" value="Submit"  />
                      
                     </form>
                      <button onClick={logout} className="submit-button">Save and logout</button>
@@ -177,14 +183,14 @@ function addNewUser() {
               
             </div>
           :
-            <div class="form col">
+            <div className="form col">
               <h2>Login or signup</h2>
               <form onSubmit={submitName}>
                 <label>
                 <input 
                   type="text" 
                   id="usernamebox" 
-                  class="form-control input-text"
+                  className="form-control input-text"
                   ref={usernamebox} 
                   value={username} 
                   onChange = {handleUsernameChange} 
