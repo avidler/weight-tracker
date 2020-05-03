@@ -1,9 +1,7 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import axios from 'axios'
 import './App.css';
 
-//import Login from './pages/Login'
-import User from './pages/User'
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
@@ -15,10 +13,6 @@ function App() {
   const [newWeight, setNewWeight] = useState(null)
 
   const usernamebox = useRef(null);
-
-  let today = new Date().toISOString().substr(0, 10);
-
-  
 
   async function getUsers () {
     await axios.get('/users')
@@ -35,11 +29,13 @@ function App() {
     })
 }
 
+/*
 function sortWeights() {
   setUserWeights(prevWeights => (
     [...prevWeights,({date:newDate, weight:newWeight})]
  ).sort((a,b) => Date.parse(new Date(b.date)) - Date.parse(new Date(a.date)))) 
 }
+*/
 
 function addNewUser() {
         
@@ -115,66 +111,82 @@ function addNewUser() {
       </header>
 
       <main> 
-        <section className="info main-grid"> 
+        <section className="info"> 
           {isLoggedIn ? 
-            <div className="col">
+            <div>
               {dataLoaded ?
-                <div className="col">
-                  <h2>User Data for {username}</h2>
-                  <div>
-                  <span className="input-group-btn"></span>
-                  <div>{status}</div>
-                  <div>
-                    <h3>Add New Weight</h3>
-                    
-                    <form onSubmit={submitWeight}>
-                      <label htmlFor="date">
-                      Date
-                      <input 
-                        type="date" 
-                        id="dateTextBox" 
-                        value={newDate}
-                        onChange = {handleDateChange} 
-                      />
-                      </label>
-                      <label htmlFor="weight">
-                      Weight
-                      <input 
-                        type="number" 
-                        id="weightTextBox" 
-                        
-                        value={newWeight}  
-                        onChange = {handleWeightChange} 
-                      />
-                      </label>
-                      <input className="submit-button" type="submit" value="Submit"  />
-                     
-                    </form>
-                     <button onClick={logout} className="submit-button">Save and logout</button>
+                <div className="main-grid">
+                  <div className="username-title col">
+                    <h2>User Data for {username}</h2>
                   </div>
-                  <div className="weightboard">
-                  <h3>Weight History</h3>
-                  {console.log("userWeights.length: ", userWeights.length)}
-                  {userWeights.length > 0 ? 
-                    <table className="weights">
-                      <thead><tr><th>Date</th><th>Weight</th><th></th></tr></thead>
-                      <tbody>
-                      {userWeights.map((user) => 
+                <div className="col">
+                  <div>
+                    <span className="input-group-btn"></span>
+                    <div>{status}</div>
+                    <div className="add-weight col">
+                      <h3>Add New Weight</h3>
+                      <div className="new-weight-form">
+                        <form onSubmit={submitWeight}>
+                          
+                          <label htmlFor="date">
+                          <div className="new-date-input">
+                            <div className="new-date-input-label">Date</div>
+                            <div className="new-date-input-box">
+                              <input 
+                                type="date" 
+                                id="date-textbox" 
+                                value={newDate}
+                                onChange = {handleDateChange} 
+                              />
+                            </div>
+                          </div>
+                          </label>
+                          
+                          <label htmlFor="weight">
+                          <div className="new-weight-input">
+                            <div className="new-weight-input-label">Weight</div>
+                            <div className="new-weight-input-box">
+                              <input 
+                                type="number" 
+                                id="weight-textbox" 
+                                value={newWeight}  
+                                onChange = {handleWeightChange} 
+                              />
+                            </div>
+                          </div>
+                          </label>
+                          
+                          <div className="new-weight-details-submit">
+                            <input className="submit-button" type="submit" value="Submit"  />
+                          </div>
+                        </form>
+                      </div>
+                      <button onClick={logout} className="submit-button">Save and logout</button>
+                    </div>
+                    <div className="weightboard col">
+                      <h3>Weight History</h3>
+                      {console.log("userWeights.length: ", userWeights.length)}
+                      {userWeights.length > 0 ? 
+                      <table className="weights">
+                        <thead><tr><th>Date</th><th>Weight</th><th></th></tr></thead>
+                        <tbody>
+                        {userWeights.map((user) => 
                         <tr key={user.date}>
                         <td id="post-date">{new Date(user.date).toDateString()} </td>
                         <td id="post-weight"> {user.weight}</td>
                         <td><button onClick={() => {removeWeight(user.date)}}>X</button></td>
                         </tr>
-                      )}
-                      </tbody>
-                    </table>
-                  :
-                    <div>{addNewUser()} 
-                      <div>New User Created</div>
-                      No data for this user yet...
+                        )}
+                        </tbody>
+                      </table>
+                      :
+                      <div>{addNewUser()} 
+                        <div>New User Created</div>
+                        No data for this user yet...
+                      </div>
+                      }
                     </div>
-                  }
-                </div>
+                  </div>
                 </div>
                 </div>
               :
@@ -183,21 +195,23 @@ function addNewUser() {
               
             </div>
           :
-            <div className="form col">
-              <h2>Login or signup</h2>
-              <form onSubmit={submitName}>
-                <label>
-                <input 
-                  type="text" 
-                  id="usernamebox" 
-                  className="form-control input-text"
-                  ref={usernamebox} 
-                  value={username} 
-                  onChange = {handleUsernameChange} 
-                />
-                </label>
-                <input className="submit-button" type="submit" value="Submit"  />
-              </form>
+            <div className="main-grid">
+              <div className="form col">
+                <h2>Login or signup</h2>
+                <form onSubmit={submitName}>
+                  <label>
+                  <input 
+                    type="text" 
+                    id="usernamebox" 
+                    className="form-control input-text"
+                    ref={usernamebox} 
+                    value={username} 
+                    onChange = {handleUsernameChange} 
+                  />
+                  </label>
+                  <input className="submit-button" type="submit" value="Submit"  />
+                </form>
+              </div>
             </div>
           }
         </section>

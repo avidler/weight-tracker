@@ -27,10 +27,8 @@ img {
   display: grid;
   grid-template-columns: minmax(1em, 1fr) minmax(0px, 500px) minmax(1em, 1fr); /* the ones at the end are the spaces at the side */
   grid-column-gap: 2em;
+  border: solid 1px green;
 }
-
-
-
 
 .header-content {
   grid-column: 2 / -2; /* note that main grid is grid, so this can have grid column even though it is flex */
@@ -53,6 +51,33 @@ h2 {
 
 .col {
   grid-column: 2 / -2; /* any column will be aligned in the middle column of the three */
+  border: solid 1px magenta;
+}
+
+.new-date-input,
+.new-weight-input {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  border: solid 1px orange;
+}
+
+.new-date-input-label,
+.new-weight-input-label {
+  grid-column: 1;
+  border: solid 1px lightblue;
+  text-align: left;
+  padding-left: 50%;
+}
+
+.new-date-input-box,
+.new-weight-input-box {
+  grid-column: 2;
+  border: solid 1px lightcoral;
+}
+
+#date-textbox,
+#weight-textbox {
+  width: 200px;
 }
 
 .submit-button{
