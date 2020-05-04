@@ -7,6 +7,7 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [username, setUsername] = useState("") 
   const [userWeights, setUserWeights] = useState([])
+  const [dailyLoss, setDailyLoss] = useState([])
   const [status, setStatus] = useState("Loading...")
   const [dataLoaded, setDataLoaded] = useState(false)
   const [newDate, setNewDate] = useState(new Date().toISOString().substr(0, 10))
@@ -22,7 +23,6 @@ function App() {
        
         setStatus("")
     })
-
 
     .then(() => {
         setDataLoaded(true)
@@ -168,12 +168,13 @@ function addNewUser() {
                       {console.log("userWeights.length: ", userWeights.length)}
                       {userWeights.length > 0 ? 
                       <table className="weights">
-                        <thead><tr><th>Date</th><th>Weight</th><th></th></tr></thead>
+                        <thead><tr><th>Date</th><th>Weight</th><th>Loss</th><th></th></tr></thead>
                         <tbody>
-                        {userWeights.map((user) => 
+                        {userWeights.map((user, i) => 
                         <tr key={user.date}>
                         <td id="post-date">{new Date(user.date).toDateString()} </td>
                         <td id="post-weight"> {user.weight}</td>
+                        <td id="post-weight-diff">{i<userWeights.length-1 ? userWeights[i+1].weight-user.weight : 0}</td>
                         <td><button onClick={() => {removeWeight(user.date)}}>X</button></td>
                         </tr>
                         )}
