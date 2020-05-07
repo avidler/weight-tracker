@@ -158,25 +158,26 @@ function addNewUser() {
                           
                           <div className="new-weight-details-submit">
                             <input className="submit-button" type="submit" value="Submit"  />
+                            <button onClick={logout} className="submit-button">Save and logout</button>
                           </div>
                         </form>
                       </div>
-                      <button onClick={logout} className="submit-button">Save and logout</button>
+                      
                     </div>
                     <div className="weightboard col">
                       <h3>Weight History</h3>
                       {console.log("userWeights.length: ", userWeights.length)}
                       {userWeights.length > 0 ? 
                       <table className="weights">
-                        <thead><tr><th>Date</th><th>Weight</th><th>Loss</th><th>Date Diff</th><th>Ave Daily Loss</th><th></th></tr></thead>
+                        <thead><tr><th>Date</th><th>Weight</th>{/*<th>Loss</th><th>Date Diff</th>*/}<th>Ave Daily Loss</th><th></th></tr></thead>
                         <tbody>
                         {userWeights.map((user, i) => 
                         <tr key={user.date}>
                         <td id="post-date">{new Date(user.date).toDateString()} </td>
                         <td id="post-weight"> {user.weight}</td>
-                        <td id="post-weight-diff">{i<userWeights.length-1 ? userWeights[i+1].weight-user.weight : 0}</td>
+                        {/*<td id="post-weight-diff">{i<userWeights.length-1 ? userWeights[i+1].weight-user.weight : 0}</td>
                         <td id="post-date-diff">{i<userWeights.length-1 ? (Date.parse(new Date(user.date)) - Date.parse(new Date(userWeights[i+1].date)))/(1000*60*60*24) : 0}</td>
-                        <td id="post-ave-date-diff">{i<userWeights.length-1 ?  Math.round((userWeights[i+1].weight-user.weight) / ((Date.parse(new Date(user.date)) - Date.parse(new Date(userWeights[i+1].date)))/(1000*60*60*24)) * 100)/100  : 0}</td>
+                        */}<td id="post-ave-date-diff">{i<userWeights.length-1 ?  Math.round((userWeights[i+1].weight-user.weight) / ((Date.parse(new Date(user.date)) - Date.parse(new Date(userWeights[i+1].date)))/(1000*60*60*24)) * 100)/100  : 0}</td>
                         <td><button onClick={() => {removeWeight(user.date)}}>X</button></td>
                         </tr>
                         )}
