@@ -30,6 +30,8 @@ img {
   /*border: solid 1px green;*/
 }
 
+
+
 .header-content {
   grid-column: 2 / -2; /* note that main grid is grid, so this can have grid column even though it is flex */
   
@@ -50,9 +52,31 @@ h2 {
   text-align: left;
 }
 
-.col {
+.col,
+.main-weight-info {
   grid-column: 2 / -2; /* any column will be aligned in the middle column of the three */
   /*border: solid 1px magenta;*/
+}
+
+@media (min-width: 840px) {
+  .main-grid {
+    grid-template-columns: minmax(1em, 1fr) minmax(200px, 350px) minmax(200px, 500px) minmax(1em, 1fr);
+    grid-template-areas:  "a b b c"
+                          "d e f g";
+                       
+  }
+  
+  .username-title {
+    grid-area: b;
+  }
+  
+  .add-weight {
+    grid-area: e;
+  }
+
+  .weightboard {
+    grid-area: f;
+  }
 }
 
 .new-date-input,
@@ -84,17 +108,25 @@ h2 {
   
 }
 
-.submit-button{
-  font-family: 'Dosis';
-
+.submit-button {
+  line-height: 1.6rem;
+  
   margin-top: 1em;
   margin-left: 0px;;
   margin-right: 1em;
   padding: 0.4em 2em;
+}
+
+.remove-button {
+  margin-top: 2px;
+}
+
+.submit-button,
+.remove-button{
+  font-family: 'Dosis';
   font-size: 1rem;
   color: #ffffff;
   background: #49b5e7;
-  line-height: 1.6rem;
   border: none;
   border-radius: 3px;
   text-align: center;
@@ -107,7 +139,9 @@ h2 {
 }
 
 .submit-button:hover,
-.submit-button:focus {
+.submit-button:focus,
+.remove-button:hover,
+.remove-button:focus {
   cursor: pointer;
   background-color: #555;
 }
@@ -130,14 +164,13 @@ tr {
 }
 
 
-
 .form {
   margin: 0;
 }
 
 .form-control {
   display: block;
-  width: 100%;
+  width: 300px;
   height: 34px;
   padding: 6px 12px;
   font-size: 14px;

@@ -119,10 +119,10 @@ function addNewUser() {
                   <div className="username-title col">
                     <h2>User Data for {username}</h2>
                   </div>
-                <div className="col">
-                  <div>
+                  
+                  
                     <span className="input-group-btn"></span>
-                    <div>{status}</div>
+                    <div className="status col">{status}</div>
                     <div className="add-weight col">
                       <h3>Add New Weight</h3>
                       <div className="new-weight-form">
@@ -178,7 +178,7 @@ function addNewUser() {
                         {/*<td id="post-weight-diff">{i<userWeights.length-1 ? userWeights[i+1].weight-user.weight : 0}</td>
                         <td id="post-date-diff">{i<userWeights.length-1 ? (Date.parse(new Date(user.date)) - Date.parse(new Date(userWeights[i+1].date)))/(1000*60*60*24) : 0}</td>
                         */}<td id="post-ave-date-diff">{i<userWeights.length-1 ?  Math.round((userWeights[i+1].weight-user.weight) / ((Date.parse(new Date(user.date)) - Date.parse(new Date(userWeights[i+1].date)))/(1000*60*60*24)) * 100)/100  : 0}</td>
-                        <td><button onClick={() => {removeWeight(user.date)}}>X</button></td>
+                        <td><button className="remove-button" onClick={() => {removeWeight(user.date)}}>X</button></td>
                         </tr>
                         )}
                         </tbody>
@@ -190,8 +190,8 @@ function addNewUser() {
                       </div>
                       }
                     </div>
-                  </div>
-                </div>
+                  
+                 
                 </div>
               :
                 <div>Data loading...</div>
