@@ -70,7 +70,8 @@ h2 {
     grid-area: b;
   }
   
-  .add-weight {
+  .add-weight,
+  .data-loading {
     grid-area: e;
   }
 
@@ -163,6 +164,9 @@ tr {
   outline: thin solid;
 }
 
+input {
+  font-family: "Lato";
+}
 
 .form {
   margin: 0;

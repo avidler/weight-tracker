@@ -22,6 +22,7 @@ function App() {
         setUserWeights(data.length > 0 ? data[0].weights : []) 
        
         setStatus("")
+        
     })
 
     .then(() => {
@@ -194,7 +195,9 @@ function addNewUser() {
                  
                 </div>
               :
-                <div>Data loading...</div>
+                <div className="main-grid">
+                  <div className="data-loading">Data loading...</div>
+                </div>
               }
               
             </div>
